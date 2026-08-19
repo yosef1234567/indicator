@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לב הלילה - מפת השינה והלב שלך</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter & Rubik -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Rubik', 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #0b0c1e 0%, #020308 100%);
+        }
+        /* Custom scrollbar for beautiful dark aesthetic */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020308;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e1b4b;
+            border-radius: 999px;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        @keyframes star-twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes lightning-flash {
+            0%, 100% { opacity: 0.15; }
+            45%, 55% { opacity: 1; }
+            50% { opacity: 0.25; }
+        }
+        @keyframes float-cloud {
+            0%, 100% { transform: translate(0px, 0px); }
+            50% { transform: translate(6px, -3px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .animate-glow {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+        .animate-twinkle {
+            animation: star-twinkle 3s ease-in-out infinite;
+        }
+        .animate-lightning {
+            animation: lightning-flash 2s ease-in-out infinite;
+        }
+        .animate-cloud {
+            animation: float-cloud 6s ease-in-out infinite;
+        }
+        /* Style range inputs elegantly */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #f59e0b;
+            cursor: pointer;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <header class="w-full max-w-4xl mx-auto px-6 py-4 flex items-center justify-between border-b border-slate-800/40 bg-slate-950/60 backdrop-blur-md sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-600 to-amber-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white animate-float" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold tracking-tight bg-gradient-to-r from-amber-200 via-violet-200 to-white bg-clip-text text-transparent">לב הלילה</h1>
+                <p class="text-xs text-slate-400 font-medium">אבחון שינה מנטלי ופיזיולוגי מקיף</p>
+            </div>
+        </div>
+        <!-- Progress Steps Container -->
+        <div id="progress-container" class="flex items-center gap-2">
+            <span id="step-number" class="text-xs sm:text-sm font-semibold text-violet-400">שאלה 1 מתוך 10</span>
+            <div class="w-24 sm:w-32 bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-violet-500 to-amber-400 h-full transition-all duration-500" style="width: 10%;"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-2xl mx-auto px-4 py-8 flex flex-col justify-center">
+        <!-- Question Wrapper -->
+        <div id="question-card" class="bg-slate-950/50 border border-slate-850/80 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-lg relative overflow-hidden transition-all duration-300">
+            <!-- Decorative ambient light spots inside card -->
+            <div class="absolute -top-16 -left-16 w-32 h-32 bg-violet-600/10 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-16 -right-16 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
+
+            <!-- Dynamic Question Content Injector -->
+            <div id="question-content" class="relative z-10">
+                <!-- Content will be injected dynamically via JS -->
+            </div>
+
+            <!-- Expert Validation Popup Box (Micro-Feedback) -->
+            <div id="feedback-panel" class="hidden mt-6 p-3 rounded-xl border border-slate-700/50 bg-slate-950/80 backdrop-blur-md transition-all duration-500 transform translate-y-4 opacity-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-300 text-xs">
+                        ✨
+                    </div>
+                    <div>
+                        <p id="feedback-text" class="text-sm font-medium text-slate-200 leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Action Footer -->
+            <div class="mt-8 pt-4 border-t border-slate-800/60 flex items-center justify-between gap-4">
+                <button id="prev-btn" onclick="goToPrevStep()" class="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-medium hover:bg-slate-800 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none" disabled>
+                    אחורה
+                </button>
+                <button id="next-btn" onclick="goToNextStep()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-violet-600/30 transition-all disabled:opacity-50 disabled:pointer-events-none" disabled>
+                    הבא
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Dashboard (Hidden Initially) -->
+        <div id="results-screen" class="hidden bg-slate-950/40 border border-slate-800/80 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-lg relative overflow-hidden transition-all duration-500 animate-fade-in">
+            <!-- Header of Results -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-xs text-indigo-300 font-semibold uppercase mb-3">
+                    ✨ האבחון הושלם - מפת הלב והירח שלך מוכנה
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">מפת שמי הלילה והלב שלך</h2>
+                <p class="text-slate-400 mt-2 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">במקום מספרים יבשים, הנה תמונת מצב ויזואלית חיה של השמיים שלכם. שימי לב אילו נושאים מאירים כירח מלא, ואילו נושאים מכוסים בענני סערה כהים וברקים:</p>
+            </div>
+
+            <!-- Interactive Moon Map Visualization -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-10">
+                <!-- Right: The Celestial Moon/Cloud assessment Map -->
+                <div class="flex flex-col items-center justify-center p-6 bg-slate-950/80 rounded-2xl border border-slate-800/60 relative overflow-hidden min-h-[360px]">
+                    <span class="absolute top-3 right-3 text-[10px] text-slate-500 uppercase tracking-wider font-semibold">מפת קבוצות הירח שלך</span>
+                    
+                    <!-- Dynamic Interactive Galaxy Map with Moon phases and Clouds -->
+                    <div class="w-72 h-72 relative my-2 flex items-center justify-center">
+                        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-[0_0_20px_rgba(139,92,246,0.15)]">
+                            <defs>
+                                <radialGradient id="skyGlow" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#31106a" stop-opacity="0.4"/>
+                                    <stop offset="100%" stop-color="#020308" stop-opacity="0"/>
+                                </radialGradient>
+                                <!-- Radiant glow for healthy moons -->
+                                <filter id="moonGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                    <feGaussianBlur stdDeviation="3.5" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                                <!-- Heavy shadow for stormy clouds -->
+                                <filter id="cloudShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.6"/>
+                                </filter>
+                            </defs>
+                            
+                            <!-- Ambient cosmic dust background -->
+                            <circle cx="100" cy="100" r="95" fill="url(#skyGlow)" class="animate-glow" />
+
+                            <!-- Background decorative space stars -->
+                            <circle cx="30" cy="40" r="0.8" fill="#fff" opacity="0.5"/>
+                            <circle cx="170" cy="45" r="1.2" fill="#fff" opacity="0.3" class="animate-pulse"/>
+                            <circle cx="160" cy="160" r="0.6" fill="#fff" opacity="0.6"/>
+                            <circle cx="45" cy="150" r="1" fill="#fff" opacity="0.4" class="animate-pulse"/>
+
+                            <!-- Connecting Constellation Orbits (Dotted paths) -->
+                            <g id="constellation-lines" opacity="0.3">
+                                <line x1="100" y1="35" x2="45" y2="75" stroke="#a78bfa" stroke-width="0.7" stroke-dasharray="2,2"/>
+                                <line x1="100" y1="35" x2="155" y2="75" stroke="#a78bfa" stroke-width="0.7" stroke-dasharray="2,2"/>
+                                <line x1="45" y1="75" x2="60" y2="140" stroke="#a78bfa" stroke-width="0.7" stroke-dasharray="2,2"/>
+                                <line x1="155" y1="75" x2="140" y2="140" stroke="#a78bfa" stroke-width="0.7" stroke-dasharray="2,2"/>
+                                <line x1="60" y1="140" x2="140" y2="140" stroke="#a78bfa" stroke-width="0.7" stroke-dasharray="2,2"/>
+                            </g>
+
+                            <!-- PILLAR 1: Biological Clock -->
+                            <g id="node-bio" class="cursor-pointer" onclick="selectStar('bio')">
+                                <!-- Group content generated dynamically in JS -->
+                            </g>
+
+                            <!-- PILLAR 2: Sleep Setup -->
+                            <g id="node-arch" class="cursor-pointer" onclick="selectStar('arch')">
+                                <!-- Group content generated dynamically in JS -->
+                            </g>
+
+                            <!-- PILLAR 3: Mental Resilience -->
+                            <g id="node-mental" class="cursor-pointer" onclick="selectStar('mental')">
+                                <!-- Group content generated dynamically in JS -->
+                            </g>
+
+                            <!-- PILLAR 4: Maternal Battery -->
+                            <g id="node-battery" class="cursor-pointer" onclick="selectStar('battery')">
+                                <!-- Group content generated dynamically in JS -->
+                            </g>
+
+                            <!-- PILLAR 5: Bridge of Concerns -->
+                            <g id="node-objection" class="cursor-pointer" onclick="selectStar('objection')">
+                                <!-- Group content generated dynamically in JS -->
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Constellation Legend and interactive details -->
+                    <div class="text-center mt-3">
+                        <p class="text-xs text-slate-400">💡 לחצי על כל ירח או ענן במפת השמים כדי לחשוף את פענוח העומק שלו!</p>
+                        <button id="repair-visual-btn" onclick="triggerVisualRepair()" class="hidden mt-3 px-5 py-2.5 rounded-full bg-indigo-500/10 border border-indigo-400/40 text-indigo-200 text-xs font-bold hover:bg-indigo-500/20 transition-all animate-bounce shadow-lg shadow-indigo-500/10">
+                            🌌 בצעי 'איזון וסנכרון שמימי' למפגש של שקט
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Left: Dynamic Axis Breakdown and Celestial Analysis Panel -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-indigo-300">אבחון עמודי התווך של הלילה</h3>
+                    <div id="axes-breakdown" class="space-y-3">
+                        <!-- Instantiated dynamically with JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breathtaking objection handling card -->
+            <div id="personalized-objection-card" class="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/20 to-slate-900 border border-slate-800 mb-8">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-violet-600/10 border border-violet-500/30 flex items-center justify-center text-2xl flex-shrink-0 animate-pulse">
+                        🧘‍♀️
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-md font-bold text-white mb-2">פענוח הלב: מה באמת מעכב את השקט שלך?</h3>
+                        <p id="objection-handling-text" class="text-sm text-slate-300 leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The "Gap / Conflict" visualizer to prompt change -->
+            <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-indigo-950/40 border border-slate-800 mb-8">
+                <h3 class="text-md font-bold text-white mb-2 flex items-center gap-2">
+                    <span>⚠️</span> פער הציפיות - למה את באמת מותשת?
+                </h3>
+                <p class="text-sm text-slate-300 leading-relaxed mb-4">הפער בין מה שמצפים ממך בספרים לבין הביולוגיה האמיתית של התינוק היונק שלך, הוא הסיבה המרכזית לאשמה ולעייפות המנטלית שלך.</p>
+                
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="p-3 rounded-xl bg-slate-950/40 border border-rose-800/40">
+                        <span class="text-xs text-rose-400 block mb-1">הציפייה החברתית (אשליית הנס)</span>
+                        <span class="text-sm font-bold text-rose-300">"לישון 12 שעות רצוף"</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-950/40 border border-emerald-800/40">
+                        <span class="text-xs text-emerald-400 block mb-1">הביולוגיה הבריאה והאמיתית</span>
+                        <span class="text-sm font-bold text-emerald-300">"יקיצות וויסות על השד"</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Personalized Recommendation & Micro-Tip -->
+            <div class="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 mb-8">
+                <div class="flex items-start gap-3">
+                    <span class="text-2xl">🌱</span>
+                    <div>
+                        <h3 class="text-md font-bold text-amber-300">הצעד הקטן והפצפון שלך כבר להלילה:</h3>
+                        <p id="micro-tip-text" class="text-sm text-slate-200 mt-2 leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversion Action Form -->
+            <div class="p-6 rounded-2xl bg-indigo-950/30 border border-indigo-800/40 text-center">
+                <h3 class="text-lg font-bold text-white">מוכנה לסגור את הסדקים ולהחזיר את האנרגיה?</h3>
+                <p class="text-sm text-slate-400 mt-2 max-w-md mx-auto leading-relaxed">בואי נתפור לכם תוכנית רכה ועוטפת שתנקה את האשמה ותשקם את לילותיכם בלי טיפת בכי.</p>
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a id="whatsapp-link" href="https://wa.me/972500000000" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold hover:from-emerald-400 hover:to-teal-500 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2">
+                        💬 ייעוץ אישי בוואטסאפ איתי
+                    </a>
+                    <button onclick="showCustomModal('הורדת מפה שמימית', 'קובץ ה-PDF המלא של מפת השמים שלכם נשלח ישירות למייל שלך. תודה רבה!')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold transition-all">
+                        ✉️ הורדת קובץ ה-PDF המלא
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Custom Modal Dialog (Replacing alerts) -->
+    <div id="custom-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
+            <h3 id="modal-title" class="text-lg font-bold text-indigo-300 mb-3 text-right">כותרת הודעה</h3>
+            <p id="modal-desc" class="text-sm text-slate-300 leading-relaxed text-right mb-6">תיאור הודעה</p>
+            <div class="flex justify-end">
+                <button onclick="hideCustomModal()" class="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl transition-all text-sm">
+                    הבנתי, תודה
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="w-full text-center py-6 border-t border-slate-900/40 bg-slate-950/20 text-xs text-slate-500">
+        <p>© 2026 לב הלילה - ליווי שינה מותאם הנקה ואימהות קשובה. כל הזכויות שמורות.</p>
+    </footer>
+
+    <script>
+        // Global variables for questionnaire state
+        let currentStep = 0;
+        let answers = {};
+        
+        // Custom 6-battery values storage
+        let batteryValues = {
+            sleep: 50,
+            support: 50,
+            self: 50,
+            instinct: 50,
+            bedtime: 50,
+            phys: 50
+        };
+
+        // Custom Noise Radar values storage
+        let activeNoises = [];
+        const NOISE_OPTIONS = [
+            { id: "pacifier", label: "הוא משתמש בך כמוצץ אנושי", weight: 15 },
+            { id: "cry", label: "תני לו לבכות קצת, הוא יישן", weight: 20 },
+            { id: "alone", label: "הוא לעולם לא ילמד להירדם לבד", weight: 15 },
+            { id: "water", label: "החלב שלך כבר מים בשלב הזה", weight: 20 },
+            { id: "spoil", label: "את מרגילה אותו לידיים ומפנקת מדי", weight: 15 },
+            { id: "night_feed", label: "אם תניקי בלילה הוא לא ייגמל לעולם", weight: 15 }
+        ];
+
+        // 10 Steps Questionnaire Content
+        const QUESTIONS = [
+            {
+                id: "age",
+                title: "בן כמה הגוזל היונק שלך?",
+                type: "cards",
+                options: [
+                    { value: "0-3", label: "0-3 חודשים", icon: "🍼", feedback: "מדהים ומאתגר! הכל פתוח בשלב הזה." },
+                    { value: "4-6", label: "4-6 חודשים", icon: "🧸", feedback: "שלב שינוי אדריכלות השינה המפורסם!" },
+                    { value: "7-12", label: "7-12 חודשים", icon: "🌟", feedback: "שלב תהפוכות מוטוריות ועניין רב." },
+                    { value: "12+", label: "שנה ומעלה", icon: "🌈", feedback: "פעוט סקרן! קל לעשות איתו שינויים ברכות." }
+                ]
+            },
+            {
+                id: "nightState",
+                title: "איך נראה לילה ממוצע שלכם כרגע?",
+                type: "cards",
+                options: [
+                    { value: "smooth", label: "מתעורר, יונק קצת, נרדם חזרה. קל.", icon: "🌌", feedback: "תענוג לשמוע! יניקות ויסות תקינות לחלוטין." },
+                    { value: "moderate", label: "יש כמה יקיצות, לפעמים לוקח זמן להרדים.", icon: "🌖", feedback: "מצב נפוץ מאוד. כיוונון קטן יעזור." },
+                    { value: "tough", label: "לילה קשוח. יקיצות מרובות מאוד.", icon: "🌪️", feedback: "קחי נשימה עמוקה. אנחנו נעשה בזה סדר." },
+                    { value: "collapse", label: "רכבת הרים. בקושי עצומות עין.", icon: "🚨", feedback: "מצב קריסה מתיש. נעשה סדר דחוף ומנחם!" }
+                ]
+            },
+            {
+                id: "setup",
+                title: "איך מתנהלת ההרדמה בתחילת הלילה?",
+                type: "cards",
+                options: [
+                    { value: "breast", label: "נרדם רק על השד", icon: "🤱", feedback: "השד הוא המקום המרגיע והמוגן בעולם עבורו." },
+                    { value: "motion", label: "רק בתנועה (ידיים/מנשא/עגלה)", icon: "🔄", feedback: "תנועה מזכירה להם את הרחם המוגן." },
+                    { value: "co-sleeping", label: "נרדם במיטה לידי", icon: "🛌", feedback: "שיתוף שינה בטוח - מופלא ומחזק!" },
+                    { value: "independent", label: "נרדם עצמאית במיטתו", icon: "✨", feedback: "מעולה! בסיס שקט ומופלא." }
+                ]
+            },
+            {
+                id: "noiseRadar",
+                title: "מדד רעשי הרקע: אילו עצות ודעות את שומעת מהסביבה?",
+                type: "noise"
+            },
+            {
+                id: "knowledge",
+                title: "איך את מרגישה עם רמת המידע שיש לך על שינת תינוקות?",
+                type: "cards",
+                options: [
+                    { value: "informed", label: "מרגישה שאני מבינה את המנגנונים וזה נותן שקט.", icon: "📚", feedback: "אין כמו ידע מותאם כדי לגרש חרדות!" },
+                    { value: "confused", label: "שומעת המון דעות ושיטות קשוחות, מתוסכלת.", icon: "🤯", feedback: "הלב שלך צודק! שחררי את השיטות הגנריות והלחץ." },
+                    { value: "thirsty", label: "מרגישה שחסר לי מידע אמין, צמאה לדעת.", icon: "🌱", feedback: "ידע מותאם הנקה ואימהות קשובה הוא מפתח לשפיות." }
+                ]
+            },
+            {
+                id: "emotion",
+                title: "כשהלילה מגיע או כשהוא מתעורר שוב, מה המחשבה הראשונה שעולה?",
+                type: "cards",
+                options: [
+                    { value: "guilt", label: "נכשלתי בלהרגיל אותו, אני לא בסדר.", icon: "😔", feedback: "שקר מוחלט של תעשיית השינה! את אמא מושלמת." },
+                    { value: "acceptance", label: "קשה לי, אבל זה תינוק יונק וזה יעבור.", icon: "🧘‍♀️", feedback: "חוסן ואמפתיה מדהימים לעצמך ולו." },
+                    { value: "despair", label: "אין לי כוח, המצב משתלט על הנאת האמהות.", icon: "💔", feedback: "מותר ואפשר לשפר את השינה ברכות וללא אשמה." }
+                ]
+            },
+            {
+                id: "batteries",
+                title: "מדד המצברים: מה מצב ה'סוללות' שלך כרגע?",
+                type: "batteries"
+            },
+            {
+                id: "readiness",
+                title: "בכנות, כמה המחשבה 'אי אפשר להמשיך ככה' מלווה אותך?",
+                type: "cards",
+                options: [
+                    { value: "low", label: "לא מלווה, אנחנו בסך הכל בטוב ובזרימה.", icon: "🍃", feedback: "איזה כיף לשמוע!" },
+                    { value: "med", label: "עוברת מדי פעם בלילות קשים במיוחד.", icon: "🌦️", feedback: "מובן לחלוטין. כולנו חוות לילות כאלה." },
+                    { value: "high", label: "זו המחשבה שמלווה אותי כל יום, אני בשלה.", icon: "⚡", feedback: "שלב ראשון ואמיץ לקראת מציאות לילה בריאה יותר!" }
+                ]
+            },
+            {
+                id: "resistance",
+                title: "בואי נדבר על הפיל שבחדר... מה הכי עוצר אותך מלפנות לליווי שינה מקצועי?",
+                type: "cards",
+                options: [
+                    { value: "cry", label: "אני חרדה משיטות אימון שיגרמו לו לבכות לבד", icon: "😭", feedback: "החשש הכי מוצדק בעולם! שיטות של בכי והתעלמות הן מחוץ לתחום אצלנו." },
+                    { value: "breastfeed", label: "אני חוששת שיאלצו אותי להפסיק להניק בלילה", icon: "🤱", feedback: "ממש לא! ההנקה היא כלי ויסות מהמם. אנחנו מתאימים את השינה אליה." },
+                    { value: "stubborn", label: "אני בטוחה שניסיתי הכל ושהתינוק שלי פשוט עקשן מדי", icon: "🧩", feedback: "כל תינוק הוא עולם שלם. ליווי מותאם אישית שמבין ויסות ומערכת עצבים עובד אחרת." },
+                    { value: "budget", label: "אני לא בטוחה שזה הזמן להשקיע בזה תקציב כרגע", icon: "💰", feedback: "מובן לחלוטין. אך חשבי על המחיר הפיזי והמנטלי שהעייפות הזו גובה ממך ומביתך." }
+                ]
+            },
+            {
+                id: "lead",
+                title: "אנחנו מייצרים את מפת הירח האישית שלך ברגע זה! לאן לשלוח אותה?",
+                type: "lead"
+            }
+        ];
+
+        function renderStep() {
+            const step = QUESTIONS[currentStep];
+            const content = document.getElementById("question-content");
+            
+            // Hide feedback panel on navigation
+            const feedbackPanel = document.getElementById("feedback-panel");
+            feedbackPanel.classList.add("hidden", "opacity-0", "translate-y-4");
+
+            // Update Progress Header
+            document.getElementById("step-number").innerText = `שאלה ${currentStep + 1} מתוך ${QUESTIONS.length}`;
+            document.getElementById("progress-bar").style.width = `${((currentStep + 1) / QUESTIONS.length) * 100}%`;
+
+            // Back button state
+            document.getElementById("prev-btn").disabled = currentStep === 0;
+
+            // Render based on Question Type
+            if (step.type === "cards") {
+                renderCardsType(step, content);
+            } else if (step.type === "batteries") {
+                // DYNAMIC IMPACT: Adjust values based on societal environmental noises selected
+                let noisePenalty = activeNoises.length * 15;
+                batteryValues.instinct = Math.max(10, 85 - noisePenalty);
+                let supportPenalty = activeNoises.length * 10;
+                batteryValues.support = Math.max(10, 80 - supportPenalty);
+
+                renderMultiBatteriesType(step, content);
+            } else if (step.type === "noise") {
+                renderNoiseRadarType(step, content);
+            } else if (step.type === "lead") {
+                renderLeadType(step, content);
+            }
+
+            updateNextButtonState();
+        }
+
+        function renderCardsType(step, container) {
+            let html = `
+                <h3 class="text-xl font-bold text-white mb-6 text-center leading-snug">${step.title}</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            `;
+
+            step.options.forEach(opt => {
+                const isSelected = answers[step.id] === opt.value;
+                const borderClass = isSelected ? 'border-violet-500 bg-violet-600/10' : 'border-slate-800 bg-slate-950/40 hover:border-slate-700 hover:bg-slate-900/30';
+                const iconGlow = isSelected ? 'bg-violet-500/30 text-violet-200' : 'bg-slate-800 text-slate-400';
+                
+                html += `
+                    <div onclick="selectCardOption('${step.id}', '${opt.value}')" class="p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 ${borderClass}">
+                        <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl transition-all ${iconGlow}">
+                            ${opt.icon}
+                        </div>
+                        <div class="text-right flex-grow">
+                            <span class="text-sm font-semibold block text-slate-100">${opt.label}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function selectCardOption(qId, val) {
+            answers[qId] = val;
+            renderStep();
+
+            const step = QUESTIONS[currentStep];
+            const option = step.options.find(o => o.value === val);
+            if (option && option.feedback) {
+                showExpertFeedback(option.feedback);
+            }
+        }
+
+        function renderMultiBatteriesType(step, container) {
+            const batteryLabels = {
+                sleep: { label: "שינה רצופה", icon: "💤" },
+                support: { label: "תמיכה ועזרה", icon: "🤝" },
+                self: { label: "זמן לטעינה עצמית", icon: "☕" },
+                instinct: { label: "ביטחון באינסטינקט", icon: "🛡️" },
+                bedtime: { label: "רוגע סביב ההרדמה", icon: "🌙" },
+                phys: { label: "בריאות ותזונה פיזית", icon: "🍎" }
+            };
+
+            let activeNoisesText = "";
+            if (activeNoises.length > 0) {
+                activeNoisesText = `<p class="text-[11px] text-rose-300 font-medium text-center mb-4 mt-1 bg-rose-950/30 py-2 px-3 rounded-xl border border-rose-900/40 leading-relaxed">⚠️ שימי לב: עקב רעשי הרקע והלחצים שסימנת מקודם (${activeNoises.length} משפטים מהסביבה), מדד הביטחון באינסטינקט האמהי שלך חווה פגיעה והחלשנו אותו בהתאם. גררי את הבוררים אם את מרגישה אחרת.</p>`;
+            }
+
+            let html = `
+                <h3 class="text-xl font-bold text-white mb-2 text-center leading-snug">${step.title}</h3>
+                <p class="text-xs text-slate-400 text-center mb-4">גררי את הבורר של כל מצבר כדי לקבוע מה כוחה של כל סוללה בגופך</p>
+                ${activeNoisesText}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto p-1">
+            `;
+
+            Object.keys(batteryValues).forEach(key => {
+                const val = batteryValues[key];
+                let color = 'from-red-500 to-rose-600';
+                if (val > 35 && val <= 70) color = 'from-amber-500 to-yellow-600';
+                else if (val > 70) color = 'from-emerald-500 to-teal-600';
+
+                html += `
+                    <div class="p-3 bg-slate-950/40 border border-slate-800 rounded-xl flex flex-col gap-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-slate-300 flex items-center gap-1">
+                                <span>${batteryLabels[key].icon}</span>
+                                <span>${batteryLabels[key].label}</span>
+                            </span>
+                            <span id="label-${key}" class="font-black text-amber-400">${val}%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <!-- Mini Battery Visual -->
+                            <div class="relative w-16 h-8 bg-slate-950 border-2 border-slate-700 rounded-lg p-0.5 flex items-center shadow-inner flex-shrink-0">
+                                <div class="absolute -right-1.5 top-1/2 -translate-y-1/2 w-1 h-3 bg-slate-700 rounded-r-sm"></div>
+                                <div id="liq-${key}" class="h-full rounded bg-gradient-to-r ${color}" style="width: ${val}%;"></div>
+                            </div>
+                            <!-- Mini Slider -->
+                            <input type="range" min="10" max="100" value="${val}" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="updateMiniBattery('${key}', this.value)">
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+            
+            showExpertFeedback("כל מצבר כוח משפיע על העמידות שלך בלילות! סמני בכנות.");
+        }
+
+        function updateMiniBattery(key, val) {
+            batteryValues[key] = parseInt(val);
+            
+            const liq = document.getElementById(`liq-${key}`);
+            const label = document.getElementById(`label-${key}`);
+            if (liq && label) {
+                liq.style.width = `${val}%`;
+                label.innerText = `${val}%`;
+
+                liq.className = "h-full rounded bg-gradient-to-r";
+                if (val <= 35) {
+                    liq.classList.add("from-red-500", "to-rose-600");
+                } else if (val > 35 && val <= 70) {
+                    liq.classList.add("from-amber-500", "to-yellow-600");
+                } else {
+                    liq.classList.add("from-emerald-500", "to-teal-600");
+                }
+            }
+            
+            updateNextButtonState();
+        }
+
+        function renderNoiseRadarType(step, container) {
+            let html = `
+                <h3 class="text-xl font-bold text-white mb-2 text-center leading-snug">${step.title}</h3>
+                <p class="text-xs text-slate-400 text-center mb-6">לחצי על משפטי הרעל שאת שומעת וראי כיצד הם מטים את המאזניים האמהיים שלך</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="flex flex-col items-center justify-center p-4 bg-slate-950/50 border border-slate-800 rounded-xl relative">
+                        <span class="absolute top-2 right-2 text-[8px] text-slate-500 font-bold">מאזני הלחץ הסביבתי</span>
+                        <div class="w-full h-36 flex items-center justify-center">
+                            <svg id="scale-svg" viewBox="0 0 200 120" class="w-full h-full transition-all duration-500">
+                                <path d="M100,80 L100,110 M80,110 L120,110" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+                                <circle cx="100" cy="80" r="4" fill="#64748b"/>
+                                <g id="scale-beam" style="transform-origin: 100px 80px; transition: transform 0.5s ease-out;">
+                                    <line x1="40" y1="80" x2="160" y2="80" stroke="#f59e0b" stroke-width="3"/>
+                                    <line x1="40" y1="80" x2="40" y2="105" stroke="#475569" stroke-width="1.5"/>
+                                    <circle cx="40" cy="105" r="8" fill="#10b981"/>
+                                    <text x="40" y="108" fill="#ffffff" font-size="6" text-anchor="middle" font-weight="bold">ביולוגיה</text>
+
+                                    <line x1="160" y1="80" x2="160" y2="105" stroke="#475569" stroke-width="1.5"/>
+                                    <circle id="weight-ball" cx="160" cy="105" r="8" fill="#ef4444"/>
+                                    <text x="160" y="108" fill="#ffffff" font-size="6" text-anchor="middle" font-weight="bold">לחץ</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <button id="filter-btn" onclick="filterNoises()" class="hidden px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold rounded-full text-xs hover:bg-emerald-500/20 transition-all">
+                            ✨ סנני את רעשי הרקע
+                        </button>
+                    </div>
+
+                    <div class="space-y-2">
+                        ${NOISE_OPTIONS.map(opt => {
+                            const isSelected = activeNoises.includes(opt.id);
+                            const activeClass = isSelected ? 'bg-red-500/10 border-red-500/50 text-red-300' : 'bg-slate-950/20 border-slate-800 text-slate-300 hover:border-slate-700';
+                            return `
+                                <button onclick="toggleNoise('${opt.id}')" class="w-full text-right p-2 border rounded-xl text-xs flex items-center justify-between transition-all ${activeClass}">
+                                    <span>${opt.label}</span>
+                                    <span>${isSelected ? '🔴 כבד' : '⚪ לחצי'}</span>
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+            updateScaleTilt();
+        }
+
+        function toggleNoise(noiseId) {
+            if (activeNoises.includes(noiseId)) {
+                activeNoises = activeNoises.filter(n => n !== noiseId);
+            } else {
+                activeNoises.push(noiseId);
+            }
+            // CRASH FIXED: We now pass the active step config instead of null!
+            renderNoiseRadarType(QUESTIONS[currentStep], document.getElementById("question-content"));
+            
+            const selectedNoise = NOISE_OPTIONS.find(n => n.id === noiseId);
+            if (selectedNoise && activeNoises.includes(noiseId)) {
+                showExpertFeedback("המשפט הזה מייצר אשמה מתישה. אל תקשיבי לו.");
+            }
+        }
+
+        function filterNoises() {
+            activeNoises = [];
+            // CRASH FIXED: Passed active step config instead of null!
+            renderNoiseRadarType(QUESTIONS[currentStep], document.getElementById("question-content"));
+            showExpertFeedback("ניקינו את הרעש! הבסיס תמיד בריא.");
+        }
+
+        function updateScaleTilt() {
+            let totalWeight = 0;
+            activeNoises.forEach(nid => {
+                const opt = NOISE_OPTIONS.find(o => o.id === nid);
+                if (opt) totalWeight += opt.weight;
+            });
+
+            const beam = document.getElementById("scale-beam");
+            const filterBtn = document.getElementById("filter-btn");
+            const weightBall = document.getElementById("weight-ball");
+
+            if (beam && weightBall) {
+                const rotation = Math.min(20, totalWeight / 3);
+                beam.style.transform = `rotate(${rotation}deg)`;
+                const newRadius = 8 + (totalWeight * 0.15);
+                weightBall.setAttribute("r", newRadius);
+            }
+
+            if (filterBtn) {
+                filterBtn.classList.toggle("hidden", activeNoises.length === 0);
+            }
+            
+            updateNextButtonState();
+        }
+
+        function renderLeadType(step, container) {
+            let html = `
+                <div class="text-center mb-6">
+                    <span class="text-3xl animate-float inline-block">🔮</span>
+                    <h3 class="text-xl font-bold text-white mt-3">${step.title}</h3>
+                    <p class="text-xs text-slate-400 mt-2">הזינו שם ואימייל לקבלת ניתוח מפת הירח שלכם, קובץ PDF והצעד הפצפון שלכן להלילה!</p>
+                </div>
+                
+                <div class="space-y-4 max-w-md mx-auto">
+                    <div>
+                        <label class="block text-right text-xs font-semibold text-slate-400 mb-1">שם פרטי</label>
+                        <input type="text" id="lead-name" placeholder="לדוגמא: אמא של איתי" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all text-right">
+                    </div>
+                    <div>
+                        <label class="block text-right text-xs font-semibold text-slate-400 mb-1">כתובת אימייל</label>
+                        <input type="email" id="lead-email" placeholder="לדוגמא: mother@love.com" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all text-left" dir="ltr">
+                    </div>
+                    <div class="text-center text-[10px] text-slate-500">
+                        * אנו שומרים על פרטיותכן לחלוטין. בלי ספאם לעולם.
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function showExpertFeedback(msg) {
+            const panel = document.getElementById("feedback-panel");
+            const text = document.getElementById("feedback-text");
+            
+            text.innerText = msg;
+            panel.classList.remove("hidden");
+            
+            setTimeout(() => {
+                panel.classList.remove("opacity-0", "translate-y-4");
+            }, 50);
+        }
+
+        function updateNextButtonState() {
+            const step = QUESTIONS[currentStep];
+            const nextBtn = document.getElementById("next-btn");
+            
+            if (step.type === "cards") {
+                nextBtn.disabled = !answers[step.id];
+            } else if (step.type === "batteries") {
+                nextBtn.disabled = false;
+            } else if (step.type === "noise") {
+                nextBtn.disabled = false;
+            } else if (step.type === "lead") {
+                nextBtn.disabled = false;
+                nextBtn.innerText = "הציגו לי את המפה השמימית!";
+                return;
+            }
+            
+            nextBtn.innerText = "הבא";
+        }
+
+        function goToNextStep() {
+            if (currentStep === QUESTIONS.length - 1) {
+                const nameInput = document.getElementById("lead-name");
+                const emailInput = document.getElementById("lead-email");
+                
+                const nameVal = nameInput ? nameInput.value.trim() : "";
+                const emailVal = emailInput ? emailInput.value.trim() : "";
+
+                if (!nameVal) {
+                    showCustomModal("שדה שם חסר", "בבקשה הזיני את שמך כדי שנוכל לייצר את המפה האישית.");
+                    return;
+                }
+                if (!emailVal || !emailVal.includes("@")) {
+                    showCustomModal("אימייל לא תקין", "בבקשה הזיני כתובת אימייל תקינה לקבלת קובץ ה-PDF ומפת הירח שלך.");
+                    return;
+                }
+
+                answers.name = nameVal;
+                answers.email = emailVal;
+                calculateFinalResults();
+                return;
+            }
+
+            currentStep++;
+            renderStep();
+        }
+
+        function goToPrevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderStep();
+            }
+        }
+
+        let diagnosisObj = {};
+
+        // Define 5 custom status thresholds
+        function getFiveStageStatus(score) {
+            if (score >= 85) return 'full_moon';        // Grade 5 (Gold - Fully Stable)
+            if (score >= 65) return 'gibbous_moon';     // Grade 4 (Teal - Bright with light mist)
+            if (score >= 45) return 'half_moon';        // Grade 3 (Indigo - Neutral/Hazy)
+            if (score >= 25) return 'crescent_cloud';    // Grade 2 (Orange - Disturbed crescent)
+            return 'stormy_eclipse';                     // Grade 1 (Red/Rose - Heavy Storm)
+        }
+
+        function calculateFinalResults() {
+            document.getElementById("question-card").classList.add("hidden");
+            document.getElementById("progress-container").classList.add("hidden");
+            document.getElementById("results-screen").classList.remove("hidden");
+
+            // Define scores based on responses (0 to 100 scale)
+            const bioClockScore = answers.nightState === 'smooth' ? 100 : answers.nightState === 'moderate' ? 70 : answers.nightState === 'tough' ? 38 : 12;
+            const sleepArchScore = answers.setup === 'independent' ? 100 : answers.setup === 'co-sleeping' ? 75 : answers.setup === 'motion' ? 52 : 30;
+            const mentalPowerScore = answers.emotion === 'acceptance' ? 95 : answers.emotion === 'despair' ? 20 : 55;
+            
+            let batterySum = 0;
+            Object.keys(batteryValues).forEach(k => batterySum += batteryValues[k]);
+            const momBatteryScore = Math.round(batterySum / 6);
+            
+            // Adjust objection score based on selection
+            let objectionScore = 30; // base (Grade 2)
+            if (answers.resistance === 'budget') objectionScore = 55;
+            if (answers.resistance === 'stubborn') objectionScore = 40;
+            if (answers.resistance === 'cry') objectionScore = 15;
+            if (answers.resistance === 'breastfeed') objectionScore = 20;
+
+            diagnosisObj = {
+                bio: { name: "שעון ביולוגי של התינוק", score: bioClockScore },
+                arch: { name: "דפוס הרדמה וניהול שינה", score: sleepArchScore },
+                mental: { name: "חוסן מנטלי ואשמה", score: mentalPowerScore },
+                battery: { name: "רמת אנרגיה מנטלית ופיזית", score: momBatteryScore },
+                objection: { name: "גשר החששות וההתנגדויות", score: objectionScore }
+            };
+
+            const nameEnc = encodeURIComponent(answers.name || "אמא");
+            const waLink = document.getElementById("whatsapp-link");
+            if (waLink) {
+                waLink.href = `https://wa.me/972500000000?text=שלום%20רציתי%20להתייעץ%20לגבי%20תוצאות%20אבחון%20השינה%20שלי,%20שמי%20${nameEnc}`;
+            }
+
+            updateConstellationStars();
+            renderAxisBreakdown();
+            renderPersonalizedTip(); // FIXED: Implemented below!
+            renderObjectionEmpathy(); // FIXED: Implemented below!
+        }
+
+        // FIXED: Reconstruct and define the missing functions to output magnificent personal tip copy
+        function renderPersonalizedTip() {
+            const microTipText = document.getElementById("micro-tip-text");
+            if (!microTipText) return;
+
+            const age = answers.age || "0-3";
+            let tip = "";
+
+            if (age === "0-3") {
+                tip = `בגיל הרך (ניו-בורן עד 3 חודשים) המערכת העצבית של תינוקך זקוקה לוויסות חיצוני מלא. <strong>הטיפ הפצפון שלך להלילה:</strong> שחררי לחלוטין כל ניסיון ללמד 'שינה עצמאית' או מניעת שינה על השד. השד, המגע והתנועה הם מקור הביטחון הראשי. נסי להניח חולצה שלבשת (עם הריח המרגיע שלך) ליד ראשו של התינוק (במרחק בטוח לחלוטין) כדי להאריך את תחושת הנוכחות שלך גם כשהוא בעריסה שלו.`;
+            } else if (age === "4-6") {
+                tip = `בגיל 4-6 חודשים מתחולל שינוי פיזיולוגי עמוק באדריכלות השינה (רגרסיית גיל 4 חודשים). <strong>הטיפ הפצפון שלך להלילה:</strong> שימי לב היטב לסימני עייפות ראשוניים (חוסר שקט, שפשוף עיניים, בהייה) והקפידי על חלון עייפות מדויק של שעתיים עד שעתיים ורבע. אל תחכי לבכי - בכי הוא כבר סימן לעייפות יתר שהורסת את ההרדמה, ויש להוריד לחץ הורמונלי על השד לפני שמנסים להניח.`;
+            } else if (age === "7-12") {
+                tip = `בגילאי 7-12 חודשים, תהפוכות מוטוריות ורגישות מוגברת לפרידה משפיעים על הלילה. <strong>הטיפ הפצפון שלך להלילה:</strong> נהלו 'טקס שינה הפוך' - הקדישו 10 דקות בחדר מואר קלות למשחק קוקו, דגדוגים עדינים או צחוק משותף לפני המעבר לחשיכה וההנקה. זה מפרק את רמות הקורטיזול (הורמון הסטרס) מהיום ומכין את הגוף להפרשת מלטונין רכה.`;
+            } else { // 12+
+                tip = `בגיל שנה ומעלה, הגוזל מבין היטב הבדלים בין יום ללילה וזקוק לגבולות רכים ומנחמים. <strong>הטיפ הפצפון שלך להלילה:</strong> השתמשי בלחישת ביטחון קבועה ('ששש, אמא פה, הולכים לישון, הכל בטוח') וצרי 'חפץ מעבר' רך שספג את הריח שלך. העניקי לו את המענה המלא כשהוא בוכה, אך נסי להחזירו למיטתו עם מגע מנחם ותומך במקום הרדמה מלאה מחוץ למיטה אם הוא רגוע.`;
+            }
+
+            microTipText.innerHTML = tip;
+        }
+
+        // FIXED: Reconstruct and define the missing functions to resolve maternal objection cards
+        function renderObjectionEmpathy() {
+            const objText = document.getElementById("objection-handling-text");
+            if (!objText) return;
+
+            const resistance = answers.resistance || "cry";
+            let text = "";
+
+            if (resistance === "cry") {
+                text = `החשש הכי עמוק שלך הוא שיגרמו לתינוק שלך לבכות לבד בחושך. החשש הזה מעיד על הלב המכוון והקשוב שלך - ועל אינטואיציה בריאה לחלוטין! שיטות גנריות של השארה לבכי (Cry It Out) הן מחוץ לתחום בלב הלילה. השינוי שלנו מבוסס על היקשרות בטוחה, ליווי צמוד, ומענה מיידי ומחבק לכל ציוץ שלו. שיפור שינה לא דורש שבירת אמון.`;
+            } else if (resistance === "breastfeed") {
+                text = `את מניקה ומפחדת שייעוץ שינה יאלץ אותך לוותר על הכלי המדהים והמנחם הזה, או יחייב אותך לגמול אותו לגמרי מהנקה בלילה. תנשמי עמוק: ההנקה היא זכות מופלאה והביולוגיה הכי בריאה של תינוקות. אנחנו לא נוגעים בהנקה ולא גומלים בכוח! אנחנו לומדים איך לייצר מעברים עדינים והירדמות רכה, ואיך ליצור לילות שלווים תוך שמירה מלאה על המשך הנקה מזינה ומחברת.`;
+            } else if (resistance === "stubborn") {
+                text = `את מרגישה שניסית כבר הכל ושהגוזל שלך פשוט עקשן באופן מיוחד, או ש'ככה הוא נולד'. האמת היא שכל תינוק הוא ייחודי, במיוחד תינוקות עם רגישות גבוהה (High Need). מה שהם צריכים זה לא שיטות קשוחות, אלא סנכרון מושלם של השעון הביולוגי, פענוח חלונות השינה לפי מערכת העצבים שלהם, ורוגע פנימי שלך. אין תינוק שלא יכול לישון בטוב ברכות.`;
+            } else { // budget
+                text = `השקעה בליווי אישי מרגישה לפעמים כמו מותרות או מעמסה כלכלית לא פשוטה. אבל העייפות הכרונית והתשישות שאת חווה פוגעות בבריאות הפיזית שלך, בזוגיות, ובאנרגיה שלך לגדל את תינוקך בשמחה. החזרת הלילות הרצופים והשפיות היא ההשקעה הכי משמעותית שתעשי עבור כל הבית שלכם.`;
+            }
+
+            objText.innerHTML = text;
+        }
+
+        function updateConstellationStars() {
+            drawCelestialNode("bio", 100, 35, diagnosisObj.bio.score, "שעון ביולוגי");
+            drawCelestialNode("arch", 45, 75, diagnosisObj.arch.score, "דפוס הרדמה");
+            drawCelestialNode("mental", 155, 75, diagnosisObj.mental.score, "חוסן מנטלי");
+            drawCelestialNode("battery", 60, 140, diagnosisObj.battery.score, "רמת אנרגיה");
+            drawCelestialNode("objection", 140, 140, diagnosisObj.objection.score, "גשר החששות");
+
+            const hasLeak = Object.keys(diagnosisObj).some(k => getFiveStageStatus(diagnosisObj[k].score) !== 'full_moon');
+            document.getElementById("repair-visual-btn").classList.toggle("hidden", !hasLeak);
+        }
+
+        // Draw five distinct SVGs for the nodes based on scores
+        function drawCelestialNode(id, cx, cy, score, labelText) {
+            const group = document.getElementById(`node-${id}`);
+            if (!group) return;
+
+            const stage = getFiveStageStatus(score);
+            let subGlow = "";
+            let coreVisual = "";
+
+            switch(stage) {
+                case 'full_moon': // Grade 5: Glowing Full Moon (Gold)
+                    subGlow = `<circle cx="${cx}" cy="${cy}" r="16" fill="#fbbf24" opacity="0.25" class="animate-glow" filter="url(#moonGlow)" />`;
+                    coreVisual = `
+                        <circle cx="${cx}" cy="${cy}" r="9" fill="#fbbf24" filter="url(#moonGlow)"/>
+                        <g transform="translate(${cx}, ${cy})" class="animate-twinkle">
+                            <polygon points="11,-11 12,-9 14,-9 12,-8 13,-6 11,-7 9,-6 10,-8 8,-9 10,-9" fill="#fff" opacity="0.9"/>
+                            <circle cx="-13" cy="11" r="0.8" fill="#fff" opacity="0.8"/>
+                        </g>
+                    `;
+                    break;
+                    
+                case 'gibbous_moon': // Grade 4: Gibbous Moon (Teal/Aquamarine)
+                    subGlow = `<circle cx="${cx}" cy="${cy}" r="13" fill="#2dd4bf" opacity="0.15" />`;
+                    coreVisual = `
+                        <path d="M ${cx} ${cy-8} A 8 8 0 1 1 ${cx} ${cy+8} A 4 8 0 0 1 ${cx} ${cy-8}" fill="#2dd4bf" opacity="0.95"/>
+                        <circle cx="${cx-10}" cy="${cy-10}" r="0.6" fill="#fff" opacity="0.6" class="animate-pulse"/>
+                        <path d="M ${cx-11} ${cy+4} Q ${cx-5} ${cy+1} ${cx} ${cy+4} T ${cx+11} ${cy+5}" stroke="#99f6e4" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.4" class="animate-cloud"/>
+                    `;
+                    break;
+
+                case 'half_moon': // Grade 3: Crescent Half Moon (Indigo/Violet)
+                    subGlow = `<circle cx="${cx}" cy="${cy}" r="12" fill="#8b5cf6" opacity="0.12" />`;
+                    coreVisual = `
+                        <path d="M ${cx} ${cy-8} A 8 8 0 0 1 ${cx} ${cy+8} Z" fill="#c084fc" opacity="0.9" />
+                        <path d="M ${cx-14} ${cy+2} Q ${cx-7} ${cy-5} ${cx} ${cy+2} T ${cx+14} ${cy+2}" stroke="#a78bfa" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5" class="animate-cloud"/>
+                    `;
+                    break;
+
+                case 'crescent_cloud': // Grade 2: Obscured Thin Crescent (Orange)
+                    subGlow = `<circle cx="${cx}" cy="${cy}" r="14" fill="#f97316" opacity="0.1" />`;
+                    coreVisual = `
+                        <path d="M ${cx} ${cy-8} A 8 8 0 0 1 ${cx} ${cy+8} A 6 8 0 0 0 ${cx} ${cy-8}" fill="#fdba74" opacity="0.8" />
+                        <g transform="translate(${cx-2}, ${cy+1})" filter="url(#cloudShadow)" class="animate-cloud">
+                            <path d="M -10,3 C -11,0 -8,-3 -4,-3 C -3,-6 1,-7 4,-4 C 7,-6 10,-4 10,-1 C 12,-1 13,3 11,5 Z" fill="#3b2b52" opacity="0.9" />
+                            <path d="M -10,3 C -11,0 -8,-3 -4,-3" stroke="#f97316" stroke-width="0.6" fill="none" opacity="0.5"/>
+                        </g>
+                    `;
+                    break;
+
+                case 'stormy_eclipse': // Grade 1: Cosmic Eclipse Storm (Red/Rose)
+                    subGlow = `<circle cx="${cx}" cy="${cy}" r="15" fill="#f43f5e" opacity="0.08" />`;
+                    coreVisual = `
+                        <circle cx="${cx}" cy="${cy}" r="8" fill="none" stroke="#f43f5e" stroke-width="1.2" class="animate-glow" />
+                        <circle cx="${cx-2}" cy="${cy-2}" r="7.2" fill="#090514" />
+                        <g transform="translate(${cx}, ${cy+2})" filter="url(#cloudShadow)" class="animate-cloud">
+                            <path d="M -13,3 C -14,-1 -11,-5 -7,-5 C -6,-9 -2,-10 1,-7 C 4,-9 8,-7 8,-4 C 11,-4 12,0 10,3 Z" fill="#1e1135" opacity="0.95" />
+                            <path d="M -13,3 C -14,-1 -11,-5 -7,-5" stroke="#f43f5e" stroke-width="0.8" fill="none" />
+                        </g>
+                        <g transform="translate(${cx}, ${cy})" class="animate-lightning">
+                            <path d="M -1,3 L -5,9 L 0,9 L -2,15" stroke="#fcd34d" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                    `;
+                    break;
+            }
+
+            group.innerHTML = `
+                ${subGlow}
+                ${coreVisual}
+                <text x="${cx}" y="${cy + 22}" fill="#94a3b8" font-size="7.5" text-anchor="middle" font-weight="bold">${labelText}</text>
+            `;
+        }
+
+        function renderAxisBreakdown() {
+            const container = document.getElementById("axes-breakdown");
+            let html = "";
+
+            Object.keys(diagnosisObj).forEach(key => {
+                const axis = diagnosisObj[key];
+                const stage = getFiveStageStatus(axis.score);
+                
+                let statusText = '';
+                let statusColor = '';
+                let barColor = '';
+
+                switch(stage) {
+                    case 'full_moon':
+                        statusText = '(מאיר ויציב לחלוטין)';
+                        statusColor = 'text-amber-400';
+                        barColor = 'bg-amber-400';
+                        break;
+                    case 'gibbous_moon':
+                        statusText = '(בהיר עם עננות קלה)';
+                        statusColor = 'text-teal-400';
+                        barColor = 'bg-teal-400';
+                        break;
+                    case 'half_moon':
+                        statusText = '(חצוי ומעורפל)';
+                        statusColor = 'text-indigo-400';
+                        barColor = 'bg-indigo-500';
+                        break;
+                    case 'crescent_cloud':
+                        statusText = '(סהר דק מוסתר)';
+                        statusColor = 'text-orange-400';
+                        barColor = 'bg-orange-500';
+                        break;
+                    case 'stormy_eclipse':
+                        statusText = '(עמוס ובסערה כבדה)';
+                        statusColor = 'text-rose-500';
+                        barColor = 'bg-rose-500';
+                        break;
+                }
+                
+                html += `
+                    <div onclick="selectStar('${key}')" class="p-3 rounded-xl bg-slate-950/40 border border-slate-800/80 cursor-pointer hover:border-slate-700 transition-all flex flex-col gap-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1">
+                                <span>✦</span>
+                                <span>${axis.name}</span>
+                            </span>
+                            <span class="text-xs font-bold ${statusColor}">${axis.score}% ${statusText}</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                            <div class="${barColor} h-full" style="width: ${axis.score}%;"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function selectStar(starKey) {
+            const axis = diagnosisObj[starKey];
+            if (!axis) return;
+            
+            let title = axis.name;
+            let message = "";
+            const stage = getFiveStageStatus(axis.score);
+            
+            // Build 5-level feedback matrix for all pillars
+            if (starKey === "bio") {
+                switch(stage) {
+                    case 'full_moon':
+                        message = `<strong>🌕 ירח מלא וזוהר - מאיר ויציב לחלוטין (ציון ${axis.score}%):</strong><br><br>
+                        השעון הביולוגי של הגוזל היונק שלך מיוצב ומסונכרן בצורה מדהימה! הורמוני השינה (מלטונין) מופרשים בקצב קוסמי מעולה, והאיזון ההורמונלי הזה מאפשר לו מעברי שינה קלים ללא התנגדויות עייפות בערב. אתם בבסיס בריא לחלוטין.`;
+                        break;
+                    case 'gibbous_moon':
+                        message = `<strong>🌖 ירח קמור - בהיר עם עננות קלה (ציון ${axis.score}%):</strong><br><br>
+                        השעון הביולוגי מתפקד בצורה טובה מאוד. הערפל הקל מסמל תנודתיות קלה של כ-15-20 דקות בחלונות העירות או בתנומות היום. כיוונון קוסמי קטן ועדין של זמני ההרדמה ימנע מהצטברות עייפות קלה בסוף היום וינקה את שמי השינה שלכם.`;
+                        break;
+                    case 'half_moon':
+                        message = `<strong>🌗 חצי ירח - חצוי ומעורפל (ציון ${axis.score}%):</strong><br><br>
+                        ישנו חוסר סנכרון חלקי בין השעון הפנימי של התינוק ללוח הזמנים. הדבר בא לידי ביטוי במאבקי הרדמה קלים בערב ובשנת יום קטועה (תנומות של 30 דקות בדיוק). זמני העירות לא תואמים לגמרי את הוויסות העצבי שלו כרגע.`;
+                        break;
+                    case 'crescent_cloud':
+                        message = `<strong>🌘 סהר דק מוסתר - מעונן חלקית וסוער (ציון ${axis.score}%):</strong><br><br>
+                        הסהר הדק מסמל שהשעון הביולוגי מוסתר תחת עננות לחץ קלה. התינוק נמצא במצב של עייפות יתר קבועה, הגורמת לגופו להפריש קורטיזול ואדרנלין (הורמוני סטרס) בשעות הערב. זהו המקור להתעוררויות רבות כחצי שעה לאחר ההרדמה.`;
+                        break;
+                    case 'stormy_eclipse':
+                        message = `<strong>🌑 ליקוי חמה סוער - עמוס ובסערה כבדה (ציון ${axis.score}%):</strong><br><br>
+                        השעון הביולוגי והפיזיולוגי של התינוק נמצא בסערת ברקים כבדה. ישנו בלבול עמוק בין יום ללילה, וקריסה מוחלטת של חלונות העירות הבריאים. התינוק עובר "אובר-שוט" קבוע, מה שמקשה על ויסות מערכת העצבים ומביא לבכי מתיש סביב כל הרדמה.`;
+                        break;
+                }
+            } else if (starKey === "arch") {
+                switch(stage) {
+                    case 'full_moon':
+                        message = `<strong>🌕 ירח מלא ומוזהב - דפוס יציב לחלוטין (ציון ${axis.score}%):</strong><br><br>
+                        דפוסי ההרדמה וניהול הלילה שלכם פשוט מופלאים. התינוק שלכם מרגיש רוגע פנימי עמוק, מקשר את השינה עם ביטחון מוחלט ויודע להירדם בנעימות ובבטחה. המשיכו כך!`;
+                        break;
+                    case 'gibbous_moon':
+                        message = `<strong>🌖 ירח קמור ובהיר - זקוק לכיוונון קל (ציון ${axis.score}%):</strong><br><br>
+                        דפוס ההרדמה עובד ברוב הלילות, אך לפעמים דורש מאמץ ארוך יותר או נתקל בקפיצות גדילה. פיתוח עקביות רכה ויצירת טקס שינה קצר וממוקד יחזירו את הירח שלכם למצב מלא וזורם.`;
+                        break;
+                    case 'half_moon':
+                        message = `<strong>🌗 חצי ירח ומעורפל - אתגר הרדמה חלקי (ציון ${axis.score}%):</strong><br><br>
+                        תהליך ההרדמה מאופיין בקושי או תלות הולכת וגוברת בגורמים מעייפים (כמו נענוע אינטנסיבי במנשא או הרדמה שלוקחת שעות). התינוק חצי מיוצב, אך יש צורך להרחיב את סל הכלים שלו מעבר לפתרון היחיד הקיים.`;
+                        break;
+                    case 'crescent_cloud':
+                        message = `<strong>🌘 סהר דק מוסתר - תלות חיצונית כבדה (ציון ${axis.score}%):</strong><br><br>
+                        ההרדמות בלילה הפכו למאבק כוחות או דורשות מאמץ פיזי כבד שמכביד עלייך (כמו קפיצות על פיזיו, נענוע ממושך או הנקה רציפה של שעות ללא הפסקה). הסדקים בדפוס מייצרים התעוררויות כל מחזור שינה.`;
+                        break;
+                    case 'stormy_eclipse':
+                        message = `<strong>🌑 ליקוי חמה סוער - הרדמות בסערה קשה (ציון ${axis.score}%):</strong><br><br>
+                        דפוסי ההרדמה חווים חסימה מוחלטת. כניסת הלילה מלווה בחרדה, בכי בלתי פוסק, ותשישות של התינוק ושלך כאחד. נראה שהגעתם למבוי סתום ושיטות גנריות רק מחמירות את המצב. נדרש פתרון רך ומקיף שישקם את האמון והוויסות.`;
+                        break;
+                }
+            } else if (starKey === "mental") {
+                switch(stage) {
+                    case 'full_moon':
+                        message = `<strong>🌕 ירח מלא ובהיר - חוסן מנטלי מעורר השראה (ציון ${axis.score}%):</strong><br><br>
+                        הלב שלך שקט ומואר. את מצליחה לסנן את רעשי הרקע והעצות הרעילות מהסביבה, מקשיבה לאינסטינקטים האימהיים שלך ומבינה את הצרכים הביולוגיים של תינוקך היונק ללא טיפת רגשות אשם.`;
+                        break;
+                    case 'gibbous_moon':
+                        message = `<strong>🌖 ירח קמור - רוגע עם רעשי רקע קלים (ציון ${axis.score}%):</strong><br><br>
+                        את מחוברת לתינוקך ועושה עבודה מופלאה, אך פה ושם משפטים סביבתיים מתישים גורמים לך לתהות "אולי אני מרגילה אותו לידיים?" או "אולי החלב שלי לא מספיק?". את עושה הכל נכון, שחררי את הספק!`;
+                        break;
+                    case 'half_moon':
+                        message = `<strong>🌗 חצי ירח - דאגה ואשמה מעורפלת (ציון ${axis.score}%):</strong><br><br>
+                        תחושת חוסר האונים בלילות מתחילה לחלחל אל היום שלך. האשמה שאת "לא בסדר" או שאת "יוצרת הרגלים רעים" מכסה את החצי המאיר של השמים שלך. נלמד לנקות את האשמה ולבנות חוסן פנימי עוטף.`;
+                        break;
+                    case 'crescent_cloud':
+                        message = `<strong>🌘 סהר דק מוסתר - עייפות מנטלית כבדה (ציון ${axis.score}%):</strong><br><br>
+                        האשמה והשיפוטיות הסביבתית מכבידות מאוד על הלב שלך. את חשה מתוסכלת ומאשימה את עצמך בשינה של התינוק. הלחץ המנטלי הזה משפיע על הנינוחות שלך בהרדמה, והתינוק קולט את הוויסות העצבי המתוח.`;
+                        break;
+                    case 'stormy_eclipse':
+                        message = `<strong>🌑 ליקוי חמה סוער - תשישות מנטלית וקריסת כוחות (ציון ${axis.score}%):</strong><br><br>
+                        הגעת לקצה גבול היכולת הרגשית. האשמה, הכעס והעייפות שולטים במציאות שלך ומעכירים את חוויית האמהות. השמיים שלך מכוסים לחלוטין בעננות סערה כהה. זכרי: זה לא אשמתך, ואת לא צריכה לעבור את זה לבד!`;
+                        break;
+                }
+            } else if (starKey === "battery") {
+                switch(stage) {
+                    case 'full_moon':
+                        message = `<strong>🌕 ירח מלא ומוזהב - מצברי כוח טעונים (ציון ${axis.score}%):</strong><br><br>
+                        סוללות האנרגיה שלך במצב מצוין! את מקבלת תמיכה מהסביבה, מצליחה ליצור לעצמך מרחב טעינה קטן ומאוזנת פיזית. האנרגיה הזו היא דלק מדהים להובלת שינויים ברכות.`;
+                        break;
+                    case 'gibbous_moon':
+                        message = `<strong>🌖 ירח קמור - אנרגיה טובה עם ירידות קלות (ציון ${axis.score}%):</strong><br><br>
+                        מצב הכוחות שלך יציב ברובו, אך לילות מורכבים יותר מותירים אותך מעט חסרת אנרגיה ביום למחרת. הקפדה על חלוקת משימות קלה וטעינה מהירה יעזרו לשמר את הירח שלך מואר.`;
+                        break;
+                    case 'half_moon':
+                        message = `<strong>🌗 חצי ירח ומעורפל - מצבר חצי ריק (ציון ${axis.score}%):</strong><br><br>
+                        סוללות האנרגיה שלך התרוקנו לחצי. את מתפקדת ועושה הכל למען התינוק, אך מרגישה שאין לך רגע אחד לנשום או לשתות קפה חם. חסרה לך רשת תמיכה יציבה וזמן מוגדר לטעינה עצמית.`;
+                        break;
+                    case 'crescent_cloud':
+                        message = `<strong>🌘 סהר דק מוסתר - סוללה חלשה וריקון פיזי (ציון ${axis.score}%):</strong><br><br>
+                        מצבר הכוחות שלך קרוב לאפס. העייפות הפיזית מלווה בכאבי גוף ותשישות חמורה. קשה מאוד לגלות סבלנות בלילה כשהסוללה האישית שלך ריקה לחלוטין. הצעד הראשון שלנו יהיה להחזיר לך שעות שינה יקרות.`;
+                        break;
+                    case 'stormy_eclipse':
+                        message = `<strong>🌑 ליקוי חמה סוער - קריסת כוחות פיזיולוגית (ציון ${axis.score}%):</strong><br><br>
+                        סוללות האנרגיה מרוקנות לחלוטין, ואת נמצאת בסיכון ממשי של שחיקה וקריסה פיזית. עייפות כרונית קיצונית כזו משפיעה על הבריאות ומקשה על מציאת רוגע בלילות. ליווי קשוב יתמקד קודם כל בשיקום המצברים שלך.`;
+                        break;
+                }
+            } else if (starKey === "objection") {
+                switch(stage) {
+                    case 'full_moon':
+                        message = `<strong>🌕 ירח מלא - פתיחות ומוכנות ללא חששות (ציון ${axis.score}%):</strong><br><br>
+                        השמיים שלך פתוחים ואין לך פחדים או התנגדויות שיעצרו אותך מלשפר את הלילות ברכות ובאהבה. את מוכנה ובשלה לקבל כלים מותאמים אישית.`;
+                        break;
+                    case 'gibbous_moon':
+                        message = `<strong>🌖 ירח קמור - חששות קלים וטבעיים (ציון ${axis.score}%):</strong><br><br>
+                        ישנם ספקות מינוריים או שאלות לגבי תהליך ליווי השינה, אך את מבינה שהמצב הנוכחי דורש שינוי קטן ומעדיפה לקבל הכוונה רכה ומקצועית ומותאמת.`;
+                        break;
+                    case 'half_moon':
+                        message = `<strong>🌗 חצי ירח - ערפל סביב השיטה (ציון ${axis.score}%):</strong><br><br>
+                        את חוששת שהשינוי ידרוש ממך מאמצים כבירים או שהתינוק שלך פשוט "עקשן מדי" ולא יגיב לליווי. נלמד לפזר את הערפל הזה ולהוכיח לך שכל תינוק עם רגישות גבוהה יכול לישון בטוב ברגע שמפענחים את מערכת העצבים שלו.`;
+                        break;
+                    case 'crescent_cloud':
+                        message = `<strong>🌘 סהר דק מוסתר - פחדים מבוססי פגיעה בהנקה (ציון ${axis.score}%):</strong><br><br>
+                        הפחד המרכזי שלך הוא שיאלצו אותך להפסיק להניק בלילה או לגמול את התינוק מהנקה מנחמת ומקרבת. הסירי דאגה מלבך: בלב הלילה, ההנקה היא כלי ויסות מהמם שאנו מנרמלים ומשלבים בתוך לילה בריא ורצוף.`;
+                        break;
+                    case 'stormy_eclipse':
+                        message = `<strong>🌑 ליקוי חמה סוער - חרדת בכי כבדה (ציון ${axis.score}%):</strong><br><br>
+                        ענן הסערה מעל החששות שלך מונע ממך לעשות צעד בגלל חרדה עמוקה משיטות "אימון שינה" מיושנות שיכריחו אותך לתת לתינוק לבכות לבדו בחושך. הבטחה אישית שלי: אצלנו אין דבר כזה בכי או התעלמות. השיקום מבוסס על היקשרות בטוחה ומענה מיידי לכל צורך.`;
+                        break;
+                }
+            }
+            
+            showCustomModal(title, message);
+        }
+
+        // Beautiful animation for synchronized map state
+        function triggerVisualRepair() {
+            Object.keys(diagnosisObj).forEach(key => {
+                diagnosisObj[key].score = 100; // All updated to Full Moon (Grade 5)
+            });
+
+            updateConstellationStars();
+            renderAxisBreakdown();
+
+            document.getElementById("repair-visual-btn").classList.add("hidden");
+
+            showCustomModal(
+                "וואו! מפת הירח שלך סונכרנה בהרמוניה קוסמית", 
+                "ראית כיצד כל ענני הסערה הכבדים והברקים התפזרו מהשמיים שלכן והפכו לירחים מלאים, חמים ומוזהבים? כשהמקצבים של התינוק והלב השקט שלך מסונכרנים בהיקשרות בטוחה - הלילות הופכים לשלווים ורצופים מעצמם. זה בדיוק מה שנבנה יחד בליווי הרך שלי, צעד אחר צעד ללא טיפת בכי."
+            );
+        }
+
+        // Custom modal controls
+        function showCustomModal(title, text) {
+            document.getElementById("modal-title").innerHTML = title;
+            document.getElementById("modal-desc").innerHTML = text;
+            const modal = document.getElementById("custom-modal");
+            modal.classList.remove("hidden");
+        }
+
+        function hideCustomModal() {
+            document.getElementById("custom-modal").classList.add("hidden");
+        }
+
+        // Fire on start
+        window.onload = function() {
+            renderStep();
+        };
+    </script>
+</body>
+</html>
