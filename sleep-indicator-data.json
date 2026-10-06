@@ -15,7 +15,6 @@
       "submit": "שלחו לי את החלום!",
       "modalConfirm": "הבנתי, תודה",
       "filterNoise": "✨ סנני את רעשי הרקע",
-      "repairSky": "🌌 בצעי 'איזון וסנכרון שמימי' למפגש של שקט",
       "whatsapp": "💬 ייעוץ אישי בוואטסאפ איתי",
       "pdf": "✉️ הורדת קובץ ה-PDF המלא"
     },
@@ -28,7 +27,7 @@
       "idleMark": "⚪ לחצי"
     },
     "mapHint": "💡 לחצי על כל ירח או ענן במפת השמים כדי לחשוף את פענוח העומק שלו!",
-    "mapLegendTitle": "נקודת הציון שלך"
+    "mapLegendTitle": "נקודות הציון שלך"
   },
   "questions": [
     {
@@ -190,15 +189,15 @@
       "selection": "single",
       "title": "תגידי דוגרי:) מה חוסם אותך מלפנות לייעוץ שינה מקצועי?",
       "feeds": ["objection", "objectionEmpathy"],
-      "defaultScore": 30,
+      "defaultScore": 85,
       "options": [
-        { "value": "cry", "label": "רועדת משיטות אימון קשוחות שתגרומנה לו לבכות לבד.", "icon": "😭", "feedback": "לא אצלנו!", "score": 40 },
-        { "value": "only_mom_understands", "label": "לא מאמינה שיש מישהי בעולם שתבין אותו יותר ממני.", "icon": "💗", "feedback": "אין כמו אמא בעולם!", "score": 60 },
-        { "value": "distrust", "label": "לא מאמינה לכל הייעוצים למיניהם.", "icon": "🙅", "feedback": "זכותך!", "score": 20 },
-        { "value": "breastfeed", "label": "לא מוכנה שישכנעו אותי להפסיק להניק בלילה", "icon": "🤱", "feedback": "באמת משולל הגיון.", "score": 40 },
-        { "value": "stubborn", "label": "ניסיתי הכל בעצמי. זה התינוק שלי, פשוט עקשן מדי.", "icon": "🧩", "feedback": "שימי סימן שאלה על המשפט הזה:)", "score": 60 },
-        { "value": "after_holidays", "label": "אין לי זמן לזה, אולי יעבור לבד…", "icon": "📅", "feedback": "חבל על כל לילה שעובר עליכם בקושי ובאתגר", "score": 20 },
-        { "value": "budget", "label": "אין לי יכולת להשקיע בזה תקציב כרגע.", "icon": "💰", "feedback": "כמה גבוה המחיר הפיזי והמנטלי שהעייפות גובה ממך?", "score": 55 }
+        { "value": "cry", "label": "רועדת משיטות אימון קשוחות שתגרומנה לו לבכות לבד.", "icon": "😭", "feedback": "לא אצלנו!", "score": 85 },
+        { "value": "only_mom_understands", "label": "לא מאמינה שיש מישהי בעולם שתבין אותו יותר ממני.", "icon": "💗", "feedback": "אין כמו אמא בעולם!", "score": 90 },
+        { "value": "distrust", "label": "לא מאמינה לכל הייעוצים למיניהם.", "icon": "🙅", "feedback": "זכותך!", "score": 81 },
+        { "value": "breastfeed", "label": "לא מוכנה שישכנעו אותי להפסיק להניק בלילה", "icon": "🤱", "feedback": "באמת משולל הגיון.", "score": 86 },
+        { "value": "stubborn", "label": "ניסיתי הכל בעצמי. זה התינוק שלי, פשוט עקשן מדי.", "icon": "🧩", "feedback": "שימי סימן שאלה על המשפט הזה:)", "score": 91 },
+        { "value": "after_holidays", "label": "אין לי זמן לזה, אולי יעבור לבד…", "icon": "📅", "feedback": "חבל על כל לילה שעובר עליכם בקושי ובאתגר", "score": 82 },
+        { "value": "budget", "label": "אין לי יכולת להשקיע בזה תקציב כרגע.", "icon": "💰", "feedback": "כמה גבוה המחיר הפיזי והמנטלי שהעייפות גובה ממך?", "score": 88 }
       ]
     },
     {
@@ -245,7 +244,7 @@
       { "id": "arch", "name": "דפוס הרדמה וניהול שינה", "shortName": "דפוס הרדמה", "sourceQuestion": "setup" },
       { "id": "mental", "name": "חוסן ואמפתיה מול אשמה", "shortName": "חוסן מנטלי", "sourceQuestion": "emotion" },
       { "id": "battery", "name": "רמת אנרגיה נפשית ופיזית", "shortName": "רמת אנרגיה", "sourceQuestion": "batteries" },
-      { "id": "objection", "name": "גשר החששות וההתנגדויות", "shortName": "גשר החששות", "sourceQuestion": "resistance" }
+      { "id": "objection", "name": "גשר החששות", "shortName": "גשר החששות", "sourceQuestion": "resistance" }
     ]
   },
   "results": {
@@ -253,13 +252,13 @@
     "title": "קבלי את סיכום האבחון ותוכלי להבין במוחש:",
     "intro": "איפה תשתית הלילה שלכם יציבה וחזקה ואיפה הן נקודות התורפה שדורשות חיזוק והכוונה.",
     "axesTitle": "אבחון עמודי התווך של הלילה.",
-    "objectionCard": {
-      "title": "אבל…",
-      "icon": "🧘‍♀️"
-    },
     "gapVisualizer": {
       "title": "לא פלא שאת מותשת!",
       "body": "הפער בין מה שמצפים ממך בספרים לבין ההתנהגות המציאותית של התינוק היונק שלך, הוא הסיבה המרכזית לאשמה ולעייפות המנטלית שלך."
+    },
+    "objectionCard": {
+      "title": "אבל…",
+      "icon": "🧘‍♀️"
     },
     "microTip": {
       "title": "הצעד הקטן שלך כבר מהלילה הקרוב:)",

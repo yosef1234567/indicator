@@ -142,14 +142,14 @@
                     ✨ הבדיקה הסתיימה, התוצאות מוכנות.
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white">קבלי את סיכום האבחון ותוכלי להבין במוחש:</h2>
-                <p class="text-slate-400 mt-2 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">איפה תשתית הלילה שלכם יציבה וחזקה ואיפה הן נקודות התורפה שדורשות חיזוק והכוונה.</p>
+                <p class="text-slate-300 mt-3 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">איפה תשתית הלילה שלכם יציבה וחזקה ואיפה הן נקודות התורפה שדורשות חיזוק והכוונה.</p>
             </div>
 
             <!-- Interactive Moon Map Visualization -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-10">
                 <!-- Right: The Celestial Moon/Cloud assessment Map -->
                 <div class="flex flex-col items-center justify-center p-6 bg-slate-950/80 rounded-2xl border border-slate-800/60 relative overflow-hidden min-h-[360px]">
-                    <span class="absolute top-3 right-3 text-[10px] text-slate-500 uppercase tracking-wider font-semibold">נקודת הציון שלך</span>
+                    <span class="absolute top-3 right-3 text-sm text-slate-400 uppercase tracking-wider font-semibold">נקודת הציון שלך</span>
                     
                     <!-- Dynamic Interactive Galaxy Map with Moon phases and Clouds -->
                     <div class="w-72 h-72 relative my-2 flex items-center justify-center">
@@ -217,20 +217,25 @@
 
                     <!-- Constellation Legend and interactive details -->
                     <div class="text-center mt-3">
-                        <p class="text-xs text-slate-400">💡 לחצי על כל ירח או ענן במפת השמים כדי לחשוף את פענוח העומק שלו!</p>
-                        <button id="repair-visual-btn" onclick="triggerVisualRepair()" class="hidden mt-3 px-5 py-2.5 rounded-full bg-indigo-500/10 border border-indigo-400/40 text-indigo-200 text-xs font-bold hover:bg-indigo-500/20 transition-all animate-bounce shadow-lg shadow-indigo-500/10">
-                            🌌 בצעי 'איזון וסנכרון שמימי' למפגש של שקט
-                        </button>
+                        <p class="text-sm text-slate-300">💡 לחצי על כל ירח או ענן במפת השמים כדי לחשוף את פענוח העומק שלו!</p>
                     </div>
                 </div>
 
                 <!-- Left: Dynamic Axis Breakdown and Celestial Analysis Panel -->
                 <div class="space-y-4">
-                    <h3 class="text-lg font-bold text-indigo-300">אבחון עמודי התווך של הלילה.</h3>
+                    <h3 class="text-xl sm:text-2xl font-bold text-indigo-300">אבחון עמודי התווך של הלילה.</h3>
                     <div id="axes-breakdown" class="space-y-3">
                         <!-- Instantiated dynamically with JS -->
                     </div>
                 </div>
+            </div>
+
+            <!-- The "Gap / Conflict" visualizer to prompt change -->
+            <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-indigo-950/40 border border-slate-800 mb-8">
+                <h3 class="text-md font-bold text-white mb-2 flex items-center gap-2">
+                    <span>⚠️</span> לא פלא שאת מותשת!
+                </h3>
+                <p class="text-sm text-slate-300 leading-relaxed mb-4">הפער בין מה שמצפים ממך בספרים לבין ההתנהגות המציאותית של התינוק היונק שלך, הוא הסיבה המרכזית לאשמה ולעייפות המנטלית שלך.</p>
             </div>
 
             <!-- Breathtaking objection handling card -->
@@ -244,14 +249,6 @@
                         <p id="objection-handling-text" class="text-sm text-slate-300 leading-relaxed"></p>
                     </div>
                 </div>
-            </div>
-
-            <!-- The "Gap / Conflict" visualizer to prompt change -->
-            <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-indigo-950/40 border border-slate-800 mb-8">
-                <h3 class="text-md font-bold text-white mb-2 flex items-center gap-2">
-                    <span>⚠️</span> לא פלא שאת מותשת!
-                </h3>
-                <p class="text-sm text-slate-300 leading-relaxed mb-4">הפער בין מה שמצפים ממך בספרים לבין ההתנהגות המציאותית של התינוק היונק שלך, הוא הסיבה המרכזית לאשמה ולעייפות המנטלית שלך.</p>
             </div>
 
             <!-- Expert Personalized Recommendation & Micro-Tip -->
@@ -268,8 +265,8 @@
             <!-- Conversion Action Form -->
             <div class="p-6 rounded-2xl bg-indigo-950/30 border border-indigo-800/40 text-center">
                 <h3 class="text-lg font-bold text-white">רוצה לבסס תשתית רחבה ויציבה ללילה טוב?</h3>
-                <p class="text-sm text-slate-400 mt-2 max-w-md mx-auto leading-relaxed">לפעמים ידע חיוני, הרגל חשוב או כלי פשוט ליישום הם אלה שישנו את היומיום שלכם לטובה ויציבו קו הפרדה בין הלילות של לפני ללילות אחרי.</p>
-                <p class="text-xs text-slate-500 mt-3">כל הידע הפרקטי מונגש לך אמא בגישה תואמת הנקה ואמהות קשובה</p>
+                <p class="text-base sm:text-lg text-slate-300 mt-2 max-w-2xl mx-auto leading-relaxed">לפעמים ידע חיוני, הרגל חשוב או כלי פשוט ליישום הם אלה שישנו את היומיום שלכם לטובה ויציבו קו הפרדה בין הלילות של לפני ללילות אחרי.</p>
+                <p class="text-sm text-slate-400 mt-3">כל הידע הפרקטי מונגש לך אמא בגישה תואמת הנקה ואמהות קשובה</p>
                 <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <a href="#" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold transition-all">
                         לרכישת המיני קורס לילה טוב לאמא המניקה
@@ -443,15 +440,15 @@
                 id: "resistance",
                 title: "תגידי דוגרי:) מה חוסם אותך מלפנות לייעוץ שינה מקצועי?",
                 type: "cards",
-                defaultScore: 30,
+                defaultScore: 85,
                 options: [
-                    { value: "cry", label: "רועדת משיטות אימון קשוחות שתגרומנה לו לבכות לבד.", icon: "😭", feedback: "לא אצלנו!", score: 40 },
-                    { value: "only_mom_understands", label: "לא מאמינה שיש מישהי בעולם שתבין אותו יותר ממני.", icon: "💗", feedback: "אין כמו אמא בעולם!", score: 60 },
-                    { value: "distrust", label: "לא מאמינה לכל הייעוצים למיניהם.", icon: "🙅", feedback: "זכותך!", score: 20 },
-                    { value: "breastfeed", label: "לא מוכנה שישכנעו אותי להפסיק להניק בלילה", icon: "🤱", feedback: "באמת משולל הגיון.", score: 40 },
-                    { value: "stubborn", label: "ניסיתי הכל בעצמי. זה התינוק שלי, פשוט עקשן מדי.", icon: "🧩", feedback: "שימי סימן שאלה על המשפט הזה:)", score: 60 },
-                    { value: "after_holidays", label: "אין לי זמן לזה, אולי יעבור לבד…", icon: "📅", feedback: "חבל על כל לילה שעובר עליכם בקושי ובאתגר", score: 20 },
-                    { value: "budget", label: "אין לי יכולת להשקיע בזה תקציב כרגע.", icon: "💰", feedback: "כמה גבוה המחיר הפיזי והמנטלי שהעייפות גובה ממך?", score: 55 }
+                    { value: "cry", label: "רועדת משיטות אימון קשוחות שתגרומנה לו לבכות לבד.", icon: "😭", feedback: "לא אצלנו!", score: 85 },
+                    { value: "only_mom_understands", label: "לא מאמינה שיש מישהי בעולם שתבין אותו יותר ממני.", icon: "💗", feedback: "אין כמו אמא בעולם!", score: 90 },
+                    { value: "distrust", label: "לא מאמינה לכל הייעוצים למיניהם.", icon: "🙅", feedback: "זכותך!", score: 81 },
+                    { value: "breastfeed", label: "לא מוכנה שישכנעו אותי להפסיק להניק בלילה", icon: "🤱", feedback: "באמת משולל הגיון.", score: 86 },
+                    { value: "stubborn", label: "ניסיתי הכל בעצמי. זה התינוק שלי, פשוט עקשן מדי.", icon: "🧩", feedback: "שימי סימן שאלה על המשפט הזה:)", score: 91 },
+                    { value: "after_holidays", label: "אין לי זמן לזה, אולי יעבור לבד…", icon: "📅", feedback: "חבל על כל לילה שעובר עליכם בקושי ובאתגר", score: 82 },
+                    { value: "budget", label: "אין לי יכולת להשקיע בזה תקציב כרגע.", icon: "💰", feedback: "כמה גבוה המחיר הפיזי והמנטלי שהעייפות גובה ממך?", score: 88 }
                 ]
             },
             {
@@ -861,14 +858,14 @@
             const momBatteryScore = Math.round(batterySum / 6);
             
             // Adjust objection score based on selection
-            const objectionScore = getOptionScore("resistance", 30);
+            const objectionScore = getOptionScore("resistance", 85);
 
             diagnosisObj = {
                 bio: { name: "שעון ביולוגי של התינוק", score: bioClockScore },
                 arch: { name: "דפוס הרדמה וניהול שינה", score: sleepArchScore },
                 mental: { name: "חוסן ואמפתיה מול אשמה", score: mentalPowerScore },
                 battery: { name: "רמת אנרגיה נפשית ופיזית", score: momBatteryScore },
-                objection: { name: "גשר החששות וההתנגדויות", score: objectionScore }
+                objection: { name: "גשר החששות", score: objectionScore }
             };
 
             const nameEnc = encodeURIComponent(answers.name || "אמא");
@@ -937,9 +934,6 @@
             drawCelestialNode("mental", 155, 75, diagnosisObj.mental.score, "חוסן מנטלי");
             drawCelestialNode("battery", 60, 140, diagnosisObj.battery.score, "רמת אנרגיה");
             drawCelestialNode("objection", 140, 140, diagnosisObj.objection.score, "גשר החששות");
-
-            const hasLeak = Object.keys(diagnosisObj).some(k => getFiveStageStatus(diagnosisObj[k].score) !== 'full_moon');
-            document.getElementById("repair-visual-btn").classList.toggle("hidden", !hasLeak);
         }
 
         // Draw five distinct SVGs for the nodes based on scores
@@ -1200,23 +1194,6 @@
             }
             
             showCustomModal(title, message);
-        }
-
-        // Beautiful animation for synchronized map state
-        function triggerVisualRepair() {
-            Object.keys(diagnosisObj).forEach(key => {
-                diagnosisObj[key].score = 100; // All updated to Full Moon (Grade 5)
-            });
-
-            updateConstellationStars();
-            renderAxisBreakdown();
-
-            document.getElementById("repair-visual-btn").classList.add("hidden");
-
-            showCustomModal(
-                "הלילה שלכם יציב ועקבי גם בזמנים של תנודות ושינויים!", 
-                "הבלבולים והספקות התפזרו ופינו את מקומם לשמיים חלקים וברורים. כי שאת והתינוק מסונכרנים ואת מבינה את משמעותו של כל נתון במנגנון השינה, הלילות הופכים בס\"ד לשלווים ורצופים מעצמם."
-            );
         }
 
         // Custom modal controls

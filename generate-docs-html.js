@@ -181,7 +181,6 @@ const html = `<!DOCTYPE html>
   <p><b>כותרת:</b> ${esc(data.results.title)}</p>
   <p>${esc(data.results.intro)}</p>
   <p><b>כותרת העמודים:</b> ${esc(data.results.axesTitle)}</p>
-  <p><b>${esc(data.results.objectionCard.title)}</b></p>
   <h3>${esc(data.results.gapVisualizer.title)}</h3>
   <p>${esc(data.results.gapVisualizer.body)}</p>
   ${table(
@@ -191,6 +190,7 @@ const html = `<!DOCTYPE html>
       ["ביולוגיה אמיתית", esc(data.results.gapVisualizer.biology.label), esc(data.results.gapVisualizer.biology.value)]
     ]
   )}
+  <p><b>${esc(data.results.objectionCard.title)}</b></p>
   <p><b>${esc(data.results.microTip.title)}</b></p>
   <h3>${esc(data.results.cta.title)}</h3>
   <p>${esc(data.results.cta.body)}</p>
