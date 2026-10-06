@@ -60,6 +60,21 @@
         .animate-cloud {
             animation: float-cloud 6s ease-in-out infinite;
         }
+        #feedback-panel {
+            position: fixed;
+            left: 50%;
+            bottom: 1.5rem;
+            z-index: 70;
+            width: min(92vw, 28rem);
+            transform: translateX(-50%) translateY(14px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+        #feedback-panel.is-visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
         /* Style range inputs elegantly */
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -96,7 +111,7 @@
         </div>
     </header>
 
-    <main class="flex-grow w-full max-w-2xl mx-auto px-4 py-8 flex flex-col justify-center">
+    <main class="flex-grow w-full max-w-4xl mx-auto px-4 py-8 flex flex-col justify-center">
         <!-- Question Wrapper -->
         <div id="question-card" class="bg-slate-950/50 border border-slate-850/80 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-lg relative overflow-hidden transition-all duration-300">
             <!-- Decorative ambient light spots inside card -->
@@ -106,18 +121,6 @@
             <!-- Dynamic Question Content Injector -->
             <div id="question-content" class="relative z-10">
                 <!-- Content will be injected dynamically via JS -->
-            </div>
-
-            <!-- Expert Validation Popup Box (Micro-Feedback) -->
-            <div id="feedback-panel" class="hidden mt-6 p-3 rounded-xl border border-slate-700/50 bg-slate-950/80 backdrop-blur-md transition-all duration-500 transform translate-y-4 opacity-0">
-                <div class="flex items-center gap-3">
-                    <div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-300 text-xs">
-                        ✨
-                    </div>
-                    <div>
-                        <p id="feedback-text" class="text-sm font-medium text-slate-200 leading-relaxed"></p>
-                    </div>
-                </div>
             </div>
 
             <!-- Card Action Footer -->
@@ -279,6 +282,16 @@
             </div>
         </div>
     </main>
+
+    <!-- Expert Feedback Toast (does not take layout space) -->
+    <div id="feedback-panel" class="hidden p-3 rounded-xl border border-amber-400/30 bg-slate-950/95 backdrop-blur-md shadow-2xl shadow-amber-500/10">
+        <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-300 text-xs">
+                ✨
+            </div>
+            <p id="feedback-text" class="text-sm font-medium text-slate-200 leading-relaxed"></p>
+        </div>
+    </div>
 
     <!-- Custom Modal Dialog (Replacing alerts) -->
     <div id="custom-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -468,9 +481,8 @@
             const step = QUESTIONS[currentStep];
             const content = document.getElementById("question-content");
             
-            // Hide feedback panel on navigation
-            const feedbackPanel = document.getElementById("feedback-panel");
-            feedbackPanel.classList.add("hidden", "opacity-0", "translate-y-4");
+            // Hide feedback toast on navigation
+            hideExpertFeedback();
 
             // Update Progress Header
             document.getElementById("step-number").innerText = `שאלה ${currentStep + 1} מתוך ${QUESTIONS.length}`;
@@ -503,7 +515,7 @@
         function renderCardsType(step, container) {
             let html = `
                 <h3 class="text-xl font-bold text-white mb-6 text-center leading-snug">${step.title}</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[420px] overflow-y-auto p-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             `;
 
             step.options.forEach(opt => {
@@ -512,12 +524,12 @@
                 const iconGlow = isSelected ? 'bg-violet-500/30 text-violet-200' : 'bg-slate-800 text-slate-400';
                 
                 html += `
-                    <div onclick="selectCardOption('${step.id}', '${opt.value}')" class="p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 ${borderClass}">
-                        <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl transition-all ${iconGlow}">
+                    <div onclick="selectCardOption('${step.id}', '${opt.value}')" class="p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 flex items-start gap-3 ${borderClass}">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0 transition-all ${iconGlow}">
                             ${opt.icon}
                         </div>
-                        <div class="text-right flex-grow">
-                            <span class="text-sm font-semibold block text-slate-100">${opt.label}</span>
+                        <div class="text-right flex-grow min-w-0">
+                            <span class="text-sm font-semibold block text-slate-100 leading-snug">${opt.label}</span>
                         </div>
                     </div>
                 `;
@@ -555,7 +567,7 @@
             let html = `
                 <h3 class="text-xl font-bold text-white mb-2 text-center leading-snug">${step.title}</h3>
                 <p class="text-xs text-slate-400 text-center mb-4">${step.helper || "כמה את מוטענת בכל תחום?"}</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto p-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             `;
 
             Object.keys(batteryValues).forEach(key => {
@@ -638,23 +650,15 @@
                                 </g>
                             </svg>
                         </div>
-                        <button id="filter-btn" onclick="filterNoises()" class="hidden px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold rounded-full text-xs hover:bg-emerald-500/20 transition-all">
-                            ✨ סנני את רעשי הרקע
-                        </button>
                     </div>
 
                     <div class="space-y-2 max-h-[280px] overflow-y-auto p-1">
                         ${NOISE_OPTIONS.map(opt => {
-                            const isSelected = activeNoises.includes(opt.id);
-                            const isPositive = opt.polarity === "positive";
-                            let activeClass = 'bg-slate-950/20 border-slate-800 text-slate-300 hover:border-slate-700';
-                            if (isSelected && isPositive) activeClass = 'bg-emerald-500/10 border-emerald-500/50 text-emerald-200';
-                            if (isSelected && !isPositive) activeClass = 'bg-red-500/10 border-red-500/50 text-red-300';
-                            const mark = isSelected ? (isPositive ? '🟢 מחזק' : '🔴 כבד') : '⚪ לחצי';
+                            const { activeClass, mark } = getNoiseButtonState(opt);
                             return `
-                                <button onclick="toggleNoise('${opt.id}')" class="w-full text-right p-2 border rounded-xl text-xs flex items-center justify-between transition-all ${activeClass}">
+                                <button type="button" data-noise-id="${opt.id}" onclick="toggleNoise('${opt.id}')" class="w-full text-right p-2 border rounded-xl text-xs flex items-center justify-between transition-all ${activeClass}">
                                     <span>${opt.label}</span>
-                                    <span>${mark}</span>
+                                    <span class="noise-mark">${mark}</span>
                                 </button>
                             `;
                         }).join('')}
@@ -665,15 +669,35 @@
             updateScaleTilt();
         }
 
+        function getNoiseButtonState(opt) {
+            const isSelected = activeNoises.includes(opt.id);
+            const isPositive = opt.polarity === "positive";
+            let activeClass = 'bg-slate-950/20 border-slate-800 text-slate-300 hover:border-slate-700';
+            if (isSelected && isPositive) activeClass = 'bg-emerald-500/10 border-emerald-500/50 text-emerald-200';
+            if (isSelected && !isPositive) activeClass = 'bg-red-500/10 border-red-500/50 text-red-300';
+            const mark = isSelected ? (isPositive ? '🟢 מחזק' : '🔴 כבד') : '⚪ לחצי';
+            return { activeClass, mark };
+        }
+
+        function updateNoiseButton(noiseId) {
+            const btn = document.querySelector(`[data-noise-id="${noiseId}"]`);
+            const opt = NOISE_OPTIONS.find(o => o.id === noiseId);
+            if (!btn || !opt) return;
+            const { activeClass, mark } = getNoiseButtonState(opt);
+            btn.className = `w-full text-right p-2 border rounded-xl text-xs flex items-center justify-between transition-all ${activeClass}`;
+            const markEl = btn.querySelector(".noise-mark");
+            if (markEl) markEl.textContent = mark;
+        }
+
         function toggleNoise(noiseId) {
             if (activeNoises.includes(noiseId)) {
                 activeNoises = activeNoises.filter(n => n !== noiseId);
             } else {
                 activeNoises.push(noiseId);
             }
-            // CRASH FIXED: We now pass the active step config instead of null!
-            renderNoiseRadarType(QUESTIONS[currentStep], document.getElementById("question-content"));
-            
+            updateNoiseButton(noiseId);
+            updateScaleTilt();
+
             const selectedNoise = NOISE_OPTIONS.find(n => n.id === noiseId);
             if (selectedNoise && activeNoises.includes(noiseId)) {
                 if (selectedNoise.polarity === "positive") {
@@ -682,13 +706,6 @@
                     showExpertFeedback("את אמא מדהימה, אל תתני למשפט הרעיל הזה לבלבל אותך!");
                 }
             }
-        }
-
-        function filterNoises() {
-            activeNoises = [];
-            // CRASH FIXED: Passed active step config instead of null!
-            renderNoiseRadarType(QUESTIONS[currentStep], document.getElementById("question-content"));
-            showExpertFeedback("ניקינו את הרעש! הבסיס תמיד בריא.");
         }
 
         function updateScaleTilt() {
@@ -700,7 +717,6 @@
             });
 
             const beam = document.getElementById("scale-beam");
-            const filterBtn = document.getElementById("filter-btn");
             const weightBall = document.getElementById("weight-ball");
 
             if (beam && weightBall) {
@@ -710,10 +726,6 @@
                 weightBall.setAttribute("r", newRadius);
             }
 
-            if (filterBtn) {
-                filterBtn.classList.toggle("hidden", activeNoises.length === 0);
-            }
-            
             updateNextButtonState();
         }
 
@@ -739,16 +751,35 @@
             container.innerHTML = html;
         }
 
+        let feedbackHideTimer;
+        let feedbackHiddenTimer;
+
+        function hideExpertFeedback() {
+            const panel = document.getElementById("feedback-panel");
+            if (!panel) return;
+            panel.classList.remove("is-visible");
+            clearTimeout(feedbackHideTimer);
+            clearTimeout(feedbackHiddenTimer);
+            feedbackHiddenTimer = setTimeout(() => {
+                panel.classList.add("hidden");
+            }, 280);
+        }
+
         function showExpertFeedback(msg) {
             const panel = document.getElementById("feedback-panel");
             const text = document.getElementById("feedback-text");
-            
+            if (!panel || !text) return;
+
             text.innerText = msg;
             panel.classList.remove("hidden");
-            
-            setTimeout(() => {
-                panel.classList.remove("opacity-0", "translate-y-4");
-            }, 50);
+            clearTimeout(feedbackHideTimer);
+            clearTimeout(feedbackHiddenTimer);
+
+            requestAnimationFrame(() => {
+                panel.classList.add("is-visible");
+            });
+
+            feedbackHideTimer = setTimeout(hideExpertFeedback, 3800);
         }
 
         function updateNextButtonState() {
