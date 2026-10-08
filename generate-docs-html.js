@@ -194,7 +194,7 @@ const html = `<!DOCTYPE html>
   <p><b>${esc(data.results.microTip.title)}</b></p>
   <h3>${esc(data.results.cta.title)}</h3>
   <p>${esc(data.results.cta.body)}</p>
-  <p><b>וואטסאפ:</b> ${esc(data.ui.buttons.whatsapp)}</p>
+  <p><b>מייל:</b> ${esc(data.ui.buttons.mailto)} — ${esc(data.results.cta.mailtoAddress)}</p>
   <p><b>PDF:</b> ${esc(data.ui.buttons.pdf)} — ${esc(data.results.cta.pdfModalTitle)}: ${esc(data.results.cta.pdfModalBody)}</p>
   <h3>${esc(data.results.repairModal.title)}</h3>
   <p>${esc(data.results.repairModal.body)}</p>

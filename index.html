@@ -271,8 +271,9 @@
                     <a href="#" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold transition-all">
                         למידע על המיניקורס לישון כמו תינוק
                     </a>
-                    <a id="whatsapp-link" href="https://wa.me/972500000000" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold hover:from-emerald-400 hover:to-teal-500 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2">
-                        למידע על שיחת ייעוץ שינה מכוונת ויעילה                    </a>
+                    <a id="mailto-link" href="https://mail.google.com/mail/?view=cm&fs=1&to=support@henyfisher.com" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-bold hover:from-sky-400 hover:to-blue-500 shadow-lg shadow-sky-500/20 transition-all flex items-center justify-center gap-2">
+                        למידע על שיחת ייעוץ שינה מכוונת ויעילה
+                    </a>
                 </div>
                 <p class="text-xs text-slate-500 mt-4">המלצה אותנטית</p>
             </div>
@@ -867,10 +868,13 @@
                 objection: { name: "גשר החששות", score: objectionScore }
             };
 
-            const nameEnc = encodeURIComponent(answers.name || "אמא");
-            const waLink = document.getElementById("whatsapp-link");
-            if (waLink) {
-                waLink.href = `https://wa.me/972500000000?text=שלום%20רציתי%20להתייעץ%20לגבי%20תוצאות%20אבחון%20השינה%20שלי,%20שמי%20${nameEnc}`;
+            const mailLink = document.getElementById("mailto-link");
+            if (mailLink) {
+                const name = answers.name || "אמא";
+                const to = encodeURIComponent("support@henyfisher.com");
+                const subject = encodeURIComponent("ייעוץ שינה - מעבדת השינה");
+                const body = encodeURIComponent(`שלום\nשמי ${name}, אשמח שתחזרי אלי`);
+                mailLink.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
             }
 
             updateConstellationStars();
